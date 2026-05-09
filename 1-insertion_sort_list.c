@@ -4,28 +4,39 @@
  * insertion_sort_list - Sorts a doubly linked list of integers
  * in ascending order using the Insertion sort algorithm.
  * @list: Double pointer to the head of the linked list
- *
- * Description: Swaps the nodes themselves (not the values).
- * Prints the list after every swap.
  */
 void insertion_sort_list(listint_t **list)
 {
-	int i, j;
-	int key = lest->next;
+	listint_t *curr, *swap, *prev;
 
-	if (list == NULL)
-	{
+	if (list == NULL || *list == NULL || (*list)->next == NULL)
 		return;
-	}
-	i = 1;
-	while (list->next != NULL)
+
+	curr = (*list)->next;
+	while (curr != NULL)
 	{
-		j = 0;
-		while (list->prev != NULL && list->prev->n > list->n)
+		swap = curr;
+		curr = curr->next;
+
+		while (swap->prev != NULL && swap->n < swap->prev->n)
 		{
-			list->next = list-> prev;
-			list->prev = NULL;
-			list->next->next =  
+			prev = swap->prev;
 
+			prev->next = swap->next;
+			if (swap->next != NULL)
+				swap->next->prev = prev;
 
-	
+			swap->prev = prev->prev;
+			swap->next = prev;
+
+			if (prev->prev != NULL)
+				prev->prev->next = swap;
+			else
+				*list = swap;
+
+			prev->prev = swap;
+
+			print_list(*list);
+		}
+	}
+}
